@@ -1,1 +1,0 @@
-# gadgetbridge serial console out
