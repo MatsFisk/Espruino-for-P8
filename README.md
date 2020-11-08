@@ -1,6 +1,6 @@
 ### enaon's repository
 
-This is a fork of [**enaon's amazing work**](https://github.com/enaon/eucWatch), but which focuses specifically on the Colmi P8 smartwatch. I'm going to try to develop this semi-regularly and pull in the relevant changes, but there is a very real chance that he updates his apps more often than me, so check his repo out.
+This is a fork of [**enaon's amazing work**](https://github.com/enaon/eucWatch), but which focuses specifically on the Colmi P8 smartwatch. I'm going to try to develop this semi-regularly and pull in the relevant changes from enaon's repository, but there is a very real chance that he updates his apps more often than me, so check his repo out.
 
 ### Loader version:
 
