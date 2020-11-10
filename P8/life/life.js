@@ -3,7 +3,6 @@
 
 face[0] = { //the first face of the hello app, called by using `face.go("hello",0)` from the cli.
   offms: 90000, //face timeout, will fall to face[1] after it, face[1] is a redirection face, not actually visible.
-  g:w.gfx, //set graphics as this.g variable
   buf:Graphics.createArrayBuffer(160,160,1,{msb:true}),
   genA:null,
   genB:null,
@@ -11,10 +10,8 @@ face[0] = { //the first face of the hello app, called by using `face.go("hello",
   currentY:1,
   intervalRef:null,
   myflip: function() {
-    this.g.drawImage({width:160,height:160,bpp:1,buffer:this.buf.buffer},40,40);
-   	//this.g.drawString((this.gentime|0)+'ms  ',200,220,true);
-   	//this.gentime=0;
-    this.g.flip();
+    g.drawImage({width:160,height:160,bpp:1,buffer:this.buf.buffer},40,40);
+    
     this.buf.clear();
   },
   initDraw: function(gen) {
@@ -33,14 +30,14 @@ face[0] = { //the first face of the hello app, called by using `face.go("hello",
   },
   howlong: function(){
     this.generation++;
-	this.g.setFont("6x8",2);
-	//this.gentime = Math.floor(this.gentime);
-	this.g.drawString('Gen:'+this.generation+'  '+(this.gentime|0)+'ms  ',20,220,true);
+	g.setFont("6x8",2);
+	this.gentime = Math.floor(this.gentime);
+	g.drawString('Gen:'+this.generation+'  '+this.gentime+'ms  ',20,220,true);
 	this.gentime=0;
   },
   next: function(){
     "ram";
-    this.start = Date.now();
+    this.start = getTime();
     var cur=this.genA, fut=this.genB, y=this.currentY;
     var count=(p)=>{return cur[p-19]+cur[p-18]+cur[p-17]+cur[p-1]+cur[p+1]+cur[p+17]+cur[p+18]+cur[p+19];};
     for (let x = 1; x<17; ++x){
@@ -54,21 +51,21 @@ face[0] = { //the first face of the hello app, called by using `face.go("hello",
         this.buf.fillRect(Xr,Yr, Xr+7,Yr+7);
       }
     }
-    this.gentime+=(Date.now()-this.start);
+    this.gentime+=(getTime()-this.start);
     if (y==16) {
-      this.howlong();
       this.myflip();
       var tmp = this.genA; this.genA=this.genB; this.genB=tmp;
+      this.howlong();
       this.currentY=1;
     } else this.currentY++;
   },
   stopdraw: function() {
-    if(this.intervalRef) {clearInterval(this.intervalRef);this.intervalRef=0;}
+    if(this.intervalRef) {clearInterval(this.intervalRef);}
   },
   startdraw: function(init) {
     if (init===undefined) init=false;
-    //if(!init) this.g.clear();
-    if(!init) this.intervalRef = setInterval(function(t){t.next();},65,this);
+    //if(!init) g.clear();
+    if(!init) intervalRef = setInterval(function(t){t.next();},65,this);
   },
   regen: function(){
 	this.stopdraw();
@@ -84,16 +81,16 @@ face[0] = { //the first face of the hello app, called by using `face.go("hello",
     this.genB=new Uint8Array(324);
     this.btn=0;
     this.last_btn=1;
-    this.g.setColor(0,col("black"));
-	this.g.clearRect(0,240,0,240);
-    this.g.setColor(1,col("white"));
-    this.g.setFont('Vector',40);
-    this.g.drawString('LIFE',80,85);
-    this.g.setFont('6x8',2);
-    this.g.drawString("Conway's",75,10);
-    this.g.drawString('(Touch Start)',45,180);
-    this.g.flip();
-    //this.startdraw(true);
+    g.setColor(col("black"));
+	g.clearRect(0,240,0,240);
+    g.setColor(col("white"));
+    g.setFont('Vector',40);
+    g.drawString('LIFE',80,85);
+    g.setFont('6x8',2);
+    g.drawString("Conway's",75,10);
+    g.drawString('(Touch Start)',45,180);
+    
+    this.startdraw(true);
   },
   show : function(o){
     return true;
@@ -101,8 +98,7 @@ face[0] = { //the first face of the hello app, called by using `face.go("hello",
   tid:-1,
   run:false,
   clear : function(){ //enter here everything needed to clear all app running function on face exit. 
-    pal[0]=col("black"); //this is for cleaner face transitions but adds delay, maybe will change in the future
-    this.g.clear(); //as above
+    g.clear(); //as above
     this.run=false;
     if (this.tid>=0) clearTimeout(this.tid); //clears main face[0] timeout loop.
 	this.stopdraw();
@@ -110,7 +106,7 @@ face[0] = { //the first face of the hello app, called by using `face.go("hello",
     return true;
   },
   off: function() {
-    this.g.off();
+    P8.sleep();
     this.clear();
   }
 };

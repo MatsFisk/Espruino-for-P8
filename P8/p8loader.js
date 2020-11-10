@@ -24,8 +24,8 @@ var APP_SOURCECODE_DEV;
   let username = "espruino";
   let githubMatch = window.location.href.match(/\/(\w+)\.github\.io/);
   if (githubMatch) username = githubMatch[1];
-  APP_SOURCECODE_URL = `https://github.com/${username}/eucWatch/tree/main/P8/`;
-  APP_SOURCECODE_DEV = `P8`;
+  APP_SOURCECODE_URL = `https://github.com/${username}/eucWatch/tree/main/P8-dev/`;
+  APP_SOURCECODE_DEV = `P8-dev`;
 })();
 
 const DEVICEINFO = {

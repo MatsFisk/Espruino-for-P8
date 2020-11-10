@@ -1,3 +1,5 @@
 #### P8 watch Espruino scripts.
 
-#### [App Loader](http://localhost:8080)
+
+#### [App Loader](https://enaon.github.io/eucWatch/p8)
+
